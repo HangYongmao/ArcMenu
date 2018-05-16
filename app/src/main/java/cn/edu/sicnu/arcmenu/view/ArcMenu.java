@@ -175,7 +175,7 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
             mCButton = getChildAt(0);
         }
         rotateCButton(view, 0f, 360f, 300);
-        toggleMenu(300);
+        toggleMenu(150);
     }
 
     private void toggleMenu(int duration) {
@@ -201,7 +201,7 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
             if (mPosition == Position.LEF_TOP || mPosition == Position.RIGHT_TOP) {
                 yFlag = -1;
             }
-            AnimationSet animet = new AnimationSet(true);
+            AnimationSet animSet = new AnimationSet(true);
             Animation tranAnim = null;
             if (mCurrentStatus == Status.CLOSE) {
                 tranAnim = new TranslateAnimation(xFlag * cl, 0, yFlag * ct, 0);
@@ -215,6 +215,7 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
 
             tranAnim.setFillAfter(true);
             tranAnim.setDuration(duration);
+            tranAnim.setStartOffset((i * 100) / count);
 
             tranAnim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -234,11 +235,26 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
                     }
                 }
             });
+
+            // 旋转动画
+            RotateAnimation rotateAnim = new RotateAnimation(0, 720, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnim.setDuration(duration);
+            rotateAnim.setFillAfter(true);
+
+            animSet.addAnimation(rotateAnim);
+            animSet.addAnimation(tranAnim);
+
+            childView.startAnimation(animSet);
         }
+        // 切换菜单状态
+        changeStatus();
+    }
+
+    private void changeStatus() {
+        mCurrentStatus = mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE;
     }
 
     // 切换菜单
-
     private void rotateCButton(View view, float start, float end, int duration) {
         RotateAnimation anim = new RotateAnimation(start, end, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
