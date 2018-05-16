@@ -7,9 +7,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
 import cn.edu.sicnu.arcmenu.R;
@@ -245,9 +247,65 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
             animSet.addAnimation(tranAnim);
 
             childView.startAnimation(animSet);
+
+            // 子菜单点击事件
+            final int pos = i + 1;
+            childView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mMenuItemClickListener != null) {
+                        mMenuItemClickListener.onClick(childView, pos);
+                    }
+                    menuItemAnim(pos - 1);
+                    changeStatus();
+                }
+            });
         }
         // 切换菜单状态
         changeStatus();
+    }
+
+    // 添加menuItem的点击动画
+    private void menuItemAnim(int pos) {
+        for (int i = 0; i < getChildCount() - 1; i++) {
+            View childView = getChildAt(i + 1);
+            if (i == pos) {
+                childView.startAnimation(scaleBigAnim(300));
+            } else {
+                childView.startAnimation(scaleSmallAnim(300));
+            }
+            childView.setClickable(false);
+            childView.setFocusable(false);
+        }
+    }
+
+    private Animation scaleSmallAnim(int duration) {
+        AnimationSet animationSet = new AnimationSet(true);
+        ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        AlphaAnimation alphaAnim = new AlphaAnimation(1f, 0f);
+
+        animationSet.addAnimation(scaleAnim);
+        animationSet.addAnimation(alphaAnim);
+
+        animationSet.setDuration(duration);
+        animationSet.setFillAfter(true);
+
+        return animationSet;
+    }
+
+    // 为当前点击的Item设置变大和透明度降低的动画
+    private Animation scaleBigAnim(int duration) {
+        AnimationSet animationSet = new AnimationSet(true);
+        ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 4.0f, 1.0f, 4.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        AlphaAnimation alphaAnim = new AlphaAnimation(1f, 0f);
+
+        animationSet.addAnimation(scaleAnim);
+        animationSet.addAnimation(alphaAnim);
+
+        animationSet.setDuration(duration);
+        animationSet.setFillAfter(true);
+
+        return animationSet;
     }
 
     private void changeStatus() {
