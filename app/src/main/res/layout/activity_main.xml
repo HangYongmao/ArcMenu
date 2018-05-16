@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.edu.sicnu.arcmenu.MainActivity">
+
+    <cn.edu.sicnu.arcmenu.view.ArcMenu
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:position="right_bottom"
+        app:radius="100dp">
+
+    </cn.edu.sicnu.arcmenu.view.ArcMenu>
+
+    <cn.edu.sicnu.arcmenu.view.ArcMenu
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:position="left_top"
+        app:radius="130dp">
+
+    </cn.edu.sicnu.arcmenu.view.ArcMenu>
+
+</RelativeLayout>
