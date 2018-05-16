@@ -14,7 +14,7 @@ import cn.edu.sicnu.arcmenu.R;
  * Created by HYM on 2018/5/15 0015.
  */
 
-public class ArcMenu extends ViewGroup {
+public class ArcMenu extends ViewGroup implements View.OnClickListener {
 
     private static final String TAG = "ArcMenu";
 
@@ -91,7 +91,57 @@ public class ArcMenu extends ViewGroup {
     }
 
     @Override
-    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+            // 测量child
+            measureChild(getChildAt(i), widthMeasureSpec, heightMeasureSpec);
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if (changed) {
+            layoutCButton();
+        }
+    }
+
+    // 定位主菜单按钮
+    private void layoutCButton() {
+        mCButton = getChildAt(0);
+        mCButton.setOnClickListener(this);
+        int l = 0;
+        int t = 0;
+        int width = mCButton.getMeasuredWidth();
+        int height = mCButton.getMeasuredHeight();
+
+        switch (mPosition) {
+            case LEF_TOP:
+                l = 0;
+                t = 0;
+                break;
+
+            case LEFT_BOTTOM:
+                l = 0;
+                t = getMeasuredHeight() - height;
+                break;
+
+            case RIGHT_TOP:
+                l = getMeasuredWidth() - width;
+                t = 0;
+                break;
+
+            case RIGHT_BOTTOM:
+                l = getMeasuredWidth() - width;
+                t = getMeasuredHeight() - height;
+                break;
+        }
+        mCButton.layout(l, t, l + width, t + width);
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }
