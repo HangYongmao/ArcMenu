@@ -7,6 +7,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import cn.edu.sicnu.arcmenu.R;
 
@@ -166,6 +168,20 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        mCButton = findViewById(R.id.id_button);
+        if (mCButton == null) {
+            mCButton = getChildAt(0);
+        }
+        rotateCButton(view, 0f, 360f, 300);
+    }
+    
+    // 切换菜单
 
+    private void rotateCButton(View view, float start, float end, int duration) {
+        RotateAnimation anim = new RotateAnimation(start, end, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        anim.setDuration(duration);
+        anim.setFillAfter(true);
+        view.startAnimation(anim);
     }
 }
