@@ -8,7 +8,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 
 import cn.edu.sicnu.arcmenu.R;
 
@@ -173,8 +175,68 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
             mCButton = getChildAt(0);
         }
         rotateCButton(view, 0f, 360f, 300);
+        toggleMenu(300);
     }
-    
+
+    private void toggleMenu(int duration) {
+        // 为menuItem添加平移动画和旋转动画
+        int count = getChildCount();
+        for (int i = 0; i < count - 1; i++) {
+            final View childView = getChildAt(i + 1);
+
+            childView.setVisibility(View.VISIBLE);
+
+            // end 0 0
+            // start
+            int cl = (int) (mRadius * Math.sin(Math.PI / 2 / (count - 2) * i));
+            int ct = (int) (mRadius * Math.cos(Math.PI / 2 / (count - 2) * i));
+
+            int xFlag = 1;
+            int yFlag = 1;
+
+            if (mPosition == Position.LEF_TOP || mPosition == Position.LEFT_BOTTOM) {
+                xFlag = -1;
+            }
+
+            if (mPosition == Position.LEF_TOP || mPosition == Position.RIGHT_TOP) {
+                yFlag = -1;
+            }
+            AnimationSet animet = new AnimationSet(true);
+            Animation tranAnim = null;
+            if (mCurrentStatus == Status.CLOSE) {
+                tranAnim = new TranslateAnimation(xFlag * cl, 0, yFlag * ct, 0);
+                childView.setClickable(true);
+                childView.setFocusable(true);
+            } else {
+                tranAnim = new TranslateAnimation(0, xFlag * cl, 0, yFlag * ct);
+                childView.setClickable(false);
+                childView.setFocusable(false);
+            }
+
+            tranAnim.setFillAfter(true);
+            tranAnim.setDuration(duration);
+
+            tranAnim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (mCurrentStatus == Status.CLOSE) {
+                        childView.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
+
     // 切换菜单
 
     private void rotateCButton(View view, float start, float end, int duration) {
