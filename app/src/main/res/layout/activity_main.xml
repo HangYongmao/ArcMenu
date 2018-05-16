@@ -6,58 +6,15 @@
     android:layout_height="match_parent"
     tools:context="cn.edu.sicnu.arcmenu.MainActivity">
 
-    <cn.edu.sicnu.arcmenu.view.ArcMenu
+    <ListView
+        android:id="@+id/id_listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:position="right_bottom"
-        app:radius="170dp">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/composer_button">
+    </ListView>
 
-            <ImageView
-                android:id="@+id/id_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/composer_icn_plus" />
+    <include layout="@layout/menu_right_bottom" />
 
-        </RelativeLayout>
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_music"
-            android:tag="Music" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_place"
-            android:tag="Place" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_sleep"
-            android:tag="Sleep" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_thought"
-            android:tag="Thought" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_with"
-            android:tag="People" />
-
-    </cn.edu.sicnu.arcmenu.view.ArcMenu>
-
+    <include layout="@layout/menu_left_bottom" />
 
 </RelativeLayout>
