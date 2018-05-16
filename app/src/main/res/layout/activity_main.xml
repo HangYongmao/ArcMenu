@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:position="right_bottom"
-        app:radius="100dp">
+        app:radius="140dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
